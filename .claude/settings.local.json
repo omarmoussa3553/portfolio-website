@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Read(//Users/omarmoussa/**)",
+      "Bash(command -v brew)",
+      "Bash(brew list *)",
+      "Read(//usr/local/**)",
+      "Bash(curl -sI http://localhost:8080/index.html)",
+      "Bash(curl -sI \"https://www-ccv.adobe.io/v1/player/ccv/SU3yDteV2Id/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View\")",
+      "Bash(curl -s -D - -o /tmp/ccv_embed.html \"https://www-ccv.adobe.io/v1/player/ccv/SU3yDteV2Id/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View\")",
+      "Bash(curl -sI -r 0-1000 \"https://cdn-prod-ccv.adobe.com/SU3yDteV2Id/rend/SU3yDteV2Id_576.mp4?hdnts=st%3D1784425549%7Eexp%3D1784684749%7Eacl%3D%2Fshared_assets%2Fimage%2F*%21%2Fz%2FSU3yDteV2Id%2Frend%2F*%21%2Fi%2FSU3yDteV2Id%2Frend%2F*%21%2FSU3yDteV2Id%2Frend%2F*%21%2FSU3yDteV2Id%2Fimage%2F*%21%2FSU3yDteV2Id%2Fcaptions%2F*%7Ehmac%3Db22bcf579531329e3ab9807a9049a50f519ffa7e36259f8d8d7cdcfe80ca5047\")",
+      "Bash(curl -sI \"https://cdn.myportfolio.com/825744fa-5ac6-4a84-97ff-34cbfcc959c4/84966156-9ca5-4ab5-8707-3a609ac76274_rw_1920.jpeg?h=1a66aef631fd1a61b2403e371f99a26d\")",
+      "Bash(curl -s \"https://omarmoussaa.myportfolio.com/rise-group-qatar\" -o /tmp/rise.html)",
+      "Bash(curl -s \"https://omarmoussaa.myportfolio.com/cinematic-films\" -o /tmp/films.html)",
+      "Bash(curl -sv \"https://omarmoussaa.myportfolio.com/rise-group-qatar\" -o \"test.html\")",
+      "Bash(python3 extract.py)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 build_manifest.py)",
+      "Bash(python3 download.py)",
+      "Bash(cp qatar-foundation/qatar-foundation-11.jpg /tmp/test-resize.jpg)",
+      "Bash(sips -Z 1800 /tmp/test-resize.jpg)",
+      "Bash(sips -g hasAlpha pix-noise/pix-noise-10.png)",
+      "Bash(curl -s -A \"Mozilla/5.0\" \"https://cdn.myportfolio.com/825744fa-5ac6-4a84-97ff-34cbfcc959c4/0cab269e-e934-401e-a267-56d0fe4a3b0c_rwc_26x0x1146x896x1146.jpeg?h=642e0bf60c38841c2b753af84e324275\" -o /tmp/portfolio_scrape/preview/personal.jpg)",
+      "Bash(curl -s http://localhost:8080/js/components.js)",
+      "Bash(curl -sI \"http://localhost:8080/media/projects/orangette/orangette-01.jpg\")",
+      "Bash(python3 download2.py)",
+      "Bash(python3)",
+      "Bash(curl -s http://localhost:8080/css/components.css)"
+    ]
+  }
+}
