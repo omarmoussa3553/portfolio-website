@@ -5,55 +5,79 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------------- Scroll-scrubbed frame sequence ----------------
-     100 pre-extracted stills, fully preloaded, drawn onto a canvas — the
-     frame index is a direct function of scroll position (0 = top, frame 99 =
+     300 pre-extracted stills, fully preloaded, drawn onto a canvas — the
+     frame index is a direct function of scroll position (0 = top, frame 299 =
      the very bottom), so motion tracks the scrollbar exactly. This replaces
      seeking a <video> element: H.264 can only jump cleanly between keyframes,
      and a short clip has very few of them, which is what made scrubbing look
      like it was snapping between a handful of frames instead of animating
-     smoothly. Swapping a preloaded image is instant regardless of codec. */
+     smoothly. Swapping a preloaded image is instant regardless of codec.
+
+     displayProgress eases toward targetProgress every frame (a lerp)
+     instead of snapping straight to wherever the scrollbar currently is —
+     a fast flick-scroll glides to its target instead of the image visibly
+     jump-cutting between far-apart frames. (An earlier version also
+     cross-faded between the two nearest frames to smooth the transition
+     further, but with only 100 source stills that dissolve read as a
+     blur/ghosting artifact rather than motion — removed now that there
+     are 300, which are close enough together to look continuous on their
+     own without blending.) */
   const canvas = document.getElementById('collage-canvas');
   const reduced = document.documentElement.classList.contains('reduced-motion');
 
   if (canvas){
     const ctx = canvas.getContext('2d');
-    const TOTAL_FRAMES = 100;
+    const TOTAL_FRAMES = 300;
     const frames = new Array(TOTAL_FRAMES);
     let loadedCount = 0;
-    let currentFrame = -1;
-    let ticking = false;
+    let targetProgress = 0;
+    let displayProgress = 0;
+    let rafId = null;
 
     function pad3(n){ return String(n).padStart(3, '0'); }
+
+    function drawImageCover(img){
+      if (!img || !img.complete || !img.naturalWidth) return;
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const dw = iw * scale, dh = ih * scale;
+      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+    }
+
+    function render(snap){
+      if (snap || Math.abs(targetProgress - displayProgress) < 0.0004){
+        displayProgress = targetProgress;
+      } else {
+        displayProgress += (targetProgress - displayProgress) * 0.12;
+      }
+      const index = Math.round(displayProgress * (TOTAL_FRAMES - 1));
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawImageCover(frames[index]);
+    }
+
+    function tick(){
+      render(false);
+      rafId = Math.abs(targetProgress - displayProgress) > 0.0004 ? requestAnimationFrame(tick) : null;
+    }
+
+    function requestTick(){
+      if (rafId == null) rafId = requestAnimationFrame(tick);
+    }
 
     function resizeCanvas(){
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(window.innerWidth * dpr);
       canvas.height = Math.round(window.innerHeight * dpr);
-      currentFrame = -1; // force a redraw at the new size
-      drawFrame(lastRequestedFrame);
+      render(true);
     }
 
-    function drawFrame(index){
-      const img = frames[index];
-      if (!img || !img.complete || !img.naturalWidth || index === currentFrame) return;
-      currentFrame = index;
-      const cw = canvas.width, ch = canvas.height;
-      const iw = img.naturalWidth, ih = img.naturalHeight;
-      const scale = Math.max(cw / iw, ch / ih);
-      const dw = iw * scale, dh = ih * scale;
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
-    }
-
-    let lastRequestedFrame = 0;
-    function updateScrub(){
-      ticking = false;
+    function updateTargetProgress(){
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? Math.min(1, Math.max(0, scrollTop / max)) : 0;
-      const index = Math.round(progress * (TOTAL_FRAMES - 1));
-      lastRequestedFrame = index;
-      drawFrame(index);
+      targetProgress = max > 0 ? Math.min(1, Math.max(0, scrollTop / max)) : 0;
+      requestTick();
     }
 
     resizeCanvas();
@@ -62,19 +86,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const img = new Image();
       img.onload = () => {
         loadedCount++;
-        if (i === lastRequestedFrame) drawFrame(i);
-        if (loadedCount === TOTAL_FRAMES && reduced) drawFrame(Math.round((TOTAL_FRAMES - 1) * 0.35));
+        requestTick();
+        if (loadedCount === TOTAL_FRAMES && reduced){
+          targetProgress = 0.35;
+          render(true);
+        }
       };
       img.src = `media/collage-frames/frame-${pad3(i)}.jpg`;
       frames[i] = img;
     }
 
     if (!reduced){
-      document.addEventListener('scroll', () => {
-        if (!ticking){ requestAnimationFrame(updateScrub); ticking = true; }
-      }, { passive: true });
+      document.addEventListener('scroll', updateTargetProgress, { passive: true });
       window.addEventListener('resize', resizeCanvas);
-      updateScrub();
+      updateTargetProgress();
     }
   }
 

@@ -229,12 +229,12 @@ body[data-nav-theme="light"] .site-nav:not([data-scrolled="true"]){
 /* ---------------- Footer ---------------- */
 .site-footer{
   background: var(--ink); color: var(--paper);
-  padding-block: var(--space-2xl) var(--space-md);
+  padding-block: var(--space-lg) var(--space-md);
 }
-.footer-headline{ font-size: var(--step-5); max-width: 16ch; }
+.footer-headline{ font-size: var(--step-2); max-width: 16ch; }
 .footer-grid{
   display:grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 .footer-col-title{ font-size: var(--step--2); letter-spacing: 0.16em; text-transform:uppercase; color: var(--muted-on-dark); margin-bottom: var(--space-sm); }
 .footer-col a, .footer-col p{ font-size: var(--step--1); display:block; margin-bottom: 0.6em; color: var(--paper); }

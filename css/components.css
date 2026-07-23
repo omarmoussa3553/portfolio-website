@@ -474,7 +474,16 @@ html.reduced-motion .marquee-inner{ animation:none; }
 [data-surface="dark"] .timeline-detail{ color: var(--muted-on-dark); }
 
 /* ---------------- Quote ---------------- */
-.pull-quote{ font-family: var(--font-display); font-style:italic; font-size: var(--step-3); max-width: 22ch; line-height:1.15; }
+.pull-quote{ font-family: var(--font-display); font-style:italic; font-size: var(--step-1); line-height:1.15; }
+
+/* ---------------- Maroon section sizing (every page except home) ----------------
+   These hero/CTA/quote sections were using the same generous padding and
+   type scale as a full-page moment, which reads fine once but felt
+   oversized repeated on every page. Scoped away from the home page, which
+   already has its own (already-tuned) sizing for its maroon glimpses. */
+body:not([data-page="home"]) [data-surface="maroon"].section{
+  padding-block: var(--space-lg);
+}
 
 /* ---------------- Contact aside (compact — the form is the main event) ----------------
    Always stacked, form first: the form is the primary action, so the compact
