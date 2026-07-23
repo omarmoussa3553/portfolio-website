@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Instrument+Serif:ital@0;1&family=Mrs+Saint+Delafield&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/tokens.css?v=17">
-<link rel="stylesheet" href="css/base.css?v=17">
-<link rel="stylesheet" href="css/components.css?v=17">
+<link rel="stylesheet" href="css/tokens.css?v=42">
+<link rel="stylesheet" href="css/base.css?v=42">
+<link rel="stylesheet" href="css/components.css?v=42">
 </head>
 <body data-page="home" data-nav-theme="dark">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -52,49 +52,44 @@
 
 <main id="main">
 
-  <!-- ============ HERO ============ -->
-  <section class="hero" data-surface="dark" data-hero-entrance>
-    <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-      <source src="media/video/showreel-hero-trimmed.mp4" type="video/mp4">
-    </video>
-    <div class="hero-scrim" aria-hidden="true"></div>
-    <div class="hero-stage">
-      <div class="hero-word-back" aria-hidden="true">MOUSSA</div>
-      <div class="hero-portrait">
-        <div class="hero-portrait-frame">
-          <div class="media-slot media-slot-img media-slot-natural"><img src="media/portraits/omar-portrait.jpg" alt="Omar Moussa" loading="eager"></div>
-          <span class="hero-portrait-tag">Omar Moussa</span>
-        </div>
-      </div>
-      <div class="hero-copy">
-        <p class="eyebrow" data-hero-meta style="margin-bottom:1.2em;">Filmmaker &amp; Creative Media Professional</p>
-        <h1 class="hero-title display">
-          <div><span data-hero-line>Direct.</span></div>
-          <div><span data-hero-line>Shoot.</span></div>
-          <div><span data-hero-line>Edit.</span></div>
-          <div><span data-hero-line><em class="accent-word">Create.</em></span></div>
-        </h1>
-      </div>
-      <div class="hero-meta-row">
-        <div class="hero-disciplines" data-hero-meta>
-          <span>Alexandria, Egypt — working across Egypt, Qatar &amp; the UAE</span>
-          <span>Directing · Videography · Photography</span>
-          <span>Graphic Design · Social · Web · 3D</span>
-        </div>
-        <a class="scroll-cue link-underline" href="#intro" data-hero-meta><span class="line"></span><span>Scroll to explore</span></a>
-      </div>
+  <!-- ============ SCROLL-SCRUBBED FRAME SEQUENCE BACKGROUND ============
+       Pinned behind the entire home page (not just the hero). Rather than
+       seeking a <video> element — which can only jump cleanly between H.264
+       keyframes and looks like it's snapping between a handful of frames on
+       a short clip — this draws one of 100 pre-extracted, fully-preloaded
+       still frames per scroll position onto a <canvas>. Swapping a preloaded
+       image is instant, so motion tracks the scrollbar exactly with no
+       decode lag or keyframe jumps. See js/reel-hero.js. -->
+  <div class="scroll-video-stage" aria-hidden="true">
+    <canvas id="collage-canvas"></canvas>
+    <div class="scroll-video-scrim"></div>
+  </div>
+
+  <audio id="hero-theme" src="media/audio/hero-theme.mp3" loop preload="auto"></audio>
+  <button class="reel-sound-toggle" id="reel-sound-toggle" type="button" aria-pressed="false">
+    <span class="reel-sound-icon" aria-hidden="true"></span>
+    <span class="reel-sound-label">Sound</span>
+  </button>
+
+  <!-- ============ HERO TEXT ============ -->
+  <section class="section reel-intro" data-surface="dark" data-hero-entrance>
+    <div class="wrap text-center">
+      <p class="eyebrow" data-hero-meta>Filmmaker &amp; Creative Media Professional</p>
+      <h1 class="reel-name display" data-hero-type>Omar Moussa</h1>
+      <p class="reel-tagline" data-hero-meta>Direct. Shoot. Edit. <em class="accent-word">Create.</em></p>
     </div>
+    <a class="scroll-cue link-underline reel-scroll-cue" href="#intro" data-hero-meta><span class="line"></span><span>Scroll to explore</span></a>
   </section>
 
   <!-- ============ SCROLLING INTRODUCTION ============ -->
-  <section id="intro" class="section-tight" data-surface="light">
+  <section id="intro" class="section-tight" data-surface="dark">
     <div class="wrap">
       <p class="eyebrow" data-reveal>Introduction</p>
       <p class="display" style="font-size:var(--step-3); max-width:22ch; margin-top:0.6em;" data-reveal>
         A quadrilingual storyteller working between <span class="accent-word">Alexandria</span> and <span class="accent-word">Doha</span>.
       </p>
     </div>
-    <div class="marquee mt-lg">
+    <div class="marquee mt-lg" data-reveal>
       <div class="marquee-inner" data-marquee>
         <div data-marquee-track>
           <span>Filmmaker</span><span>—</span><span>Photographer</span><span>—</span><span>Designer</span><span>—</span><span>Web Developer</span><span>—</span><span>3D Artist</span><span>—</span>
@@ -104,7 +99,7 @@
   </section>
 
   <!-- ============ ABOUT GLIMPSE ============ -->
-  <section class="section" data-surface="maroon">
+  <section class="section home-about-glimpse" data-surface="maroon">
     <div class="wrap split">
       <div class="split-media" data-reveal>
         <div class="media-slot media-slot-img media-slot-natural"><img src="media/portraits/omar-behind-the-scenes.jpg" alt="Omar Moussa shooting on location" loading="lazy"></div>
@@ -112,37 +107,37 @@
       <div>
         <p class="signature" data-reveal>Omar Moussa</p>
         <p class="eyebrow" data-reveal>About</p>
-        <h2 class="display" style="font-size:var(--step-3); margin-top:0.5em;" data-reveal>
+        <h2 class="display" data-type-reveal data-type-speed="45">
           Quadrilingual filmmaker and creative media professional, supported by teaching experience at AAST and a year immersed in Qatar's media industry.
         </h2>
         <p class="body-lg mt-md" data-reveal style="color:var(--muted-on-maroon); max-width:52ch;">
           Directing, videography, advanced editing and creative content production across international markets — with a growing audience of over 100k followers built along the way.
         </p>
-        <a class="btn btn-primary mt-md" href="about.html" data-cursor="Read">Discover My Story</a>
+        <a class="btn btn-primary mt-md" href="about.html" data-cursor="Read" data-reveal data-reveal-delay="0.15">Discover My Story</a>
       </div>
     </div>
   </section>
 
   <!-- ============ SERVICES GLIMPSE ============ -->
-  <section class="section" data-surface="dark">
+  <section class="section home-services-glimpse" data-surface="dark">
     <div class="wrap">
       <div class="section-head">
-        <h2 class="display" data-reveal>What I Do</h2>
+        <h2 class="display" data-type-reveal>What I Do</h2>
         <p class="section-desc body-md" data-reveal>Six disciplines, one point of contact — from first frame to final delivery.</p>
       </div>
       <div class="service-list" data-service-list data-reveal></div>
-      <a class="btn btn-primary mt-lg" href="services.html" data-cursor="View">All Services</a>
+      <a class="btn btn-primary mt-lg" href="services.html" data-cursor="View" data-reveal data-reveal-delay="0.1">All Services</a>
     </div>
   </section>
 
   <!-- ============ GEOGRAPHIC EXPERIENCE ============ -->
-  <section class="section" data-surface="dark">
+  <section class="section home-map-glimpse" data-surface="dark">
     <div class="wrap map-wrap">
       <div class="section-head">
-        <h2 class="display" data-reveal>Where I've Worked</h2>
+        <h2 class="display" data-type-reveal>Where I've Worked</h2>
         <p class="section-desc body-md" data-reveal>Three confirmed markets so far — the map grows with every project.</p>
       </div>
-      <div data-experience-map>
+      <div data-experience-map data-reveal>
         <div class="map-line" data-map-line></div>
         <div class="map-panel" data-map-panel></div>
       </div>
@@ -153,7 +148,7 @@
   <section class="section" data-surface="maroon">
     <div class="wrap">
       <p class="eyebrow" data-reveal>Let's Talk</p>
-      <h2 class="display" style="font-size:var(--step-5); max-width:16ch; margin-top:0.4em;" data-reveal>Let's create something worth remembering.</h2>
+      <h2 class="display" style="font-size:var(--step-5); max-width:16ch; margin-top:0.4em;" data-type-reveal>Let's create something worth remembering.</h2>
       <div class="flex flex-wrap gap-sm mt-lg" data-reveal>
         <a class="btn btn-primary" href="contact.html" data-cursor="Send">Start a Project</a>
         <a class="btn" style="color:var(--paper);" href="mailto:omarmoussa3553@gmail.com">omarmoussa3553@gmail.com</a>
@@ -163,50 +158,20 @@
 
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <p class="footer-headline display">Got a story to tell? I'm ready when you are.</p>
-    <div class="footer-grid">
-      <div class="footer-col">
-        <p class="footer-col-title">Contact</p>
-        <a href="mailto:omarmoussa3553@gmail.com">omarmoussa3553@gmail.com</a>
-        <a href="tel:+201127682366">+20 112 7682 366</a>
-        <p>Alexandria, Egypt</p>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-title">Navigate</p>
-        <a href="about.html">About</a>
-        <a href="services.html">Services</a>
-        <a href="projects.html">Projects</a>
-        <a href="clients.html">Clients</a>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-title">Social</p>
-        <a href="https://www.instagram.com/omar.moussa/">Instagram</a>
-        <a href="https://www.linkedin.com/in/omarmoussa2000/">LinkedIn</a>
-        <a href="https://www.tiktok.com/@omar.moussaa">TikTok</a>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-title">Languages</p>
-        <p>English · Arabic</p>
-        <p>Italian · French</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; <span id="year"></span> Omar Moussa</span>    </div>
-  </div>
-</footer>
+<!-- No footer on the home page, deliberately — the Contact Glimpse section
+     above ("Let's create something worth remembering.") is meant to be the
+     last thing the visitor sees, not followed by another block of links. -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="js/data.js?v=17" defer></script>
-<script src="js/components.js?v=17" defer></script>
-<script src="js/map.js?v=17" defer></script>
-<script src="js/motion.js?v=17" defer></script>
-<script src="js/nav.js?v=17" defer></script>
-<script src="js/cursor.js?v=17" defer></script>
-<script src="js/transitions.js?v=17" defer></script>
-<script src="js/home.js?v=17" defer></script>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="js/data.js?v=42" defer></script>
+<script src="js/components.js?v=42" defer></script>
+<script src="js/map.js?v=42" defer></script>
+<script src="js/motion.js?v=42" defer></script>
+<script src="js/nav.js?v=42" defer></script>
+<script src="js/cursor.js?v=42" defer></script>
+<script src="js/transitions.js?v=42" defer></script>
+<script src="js/home.js?v=42" defer></script>
+<script src="js/reel-hero.js?v=42" defer></script>
 </body>
 </html>

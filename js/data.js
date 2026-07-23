@@ -147,7 +147,7 @@ const SITE_DATA = {
   experienceMap: [
     { name: "Egypt", code: "EG", verified: true },
     { name: "Qatar", code: "QA", verified: true },
-    { name: "United Arab Emirates", code: "AE", verified: true }
+    { name: "UAE", code: "AE", verified: true }
   ],
 
   clients: [

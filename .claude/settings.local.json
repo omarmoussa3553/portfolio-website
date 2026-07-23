@@ -26,7 +26,8 @@
       "Bash(curl -sI \"http://localhost:8080/media/projects/orangette/orangette-01.jpg\")",
       "Bash(python3 download2.py)",
       "Bash(python3)",
-      "Bash(curl -s http://localhost:8080/css/components.css)"
+      "Bash(curl -s http://localhost:8080/css/components.css)",
+      "Bash(mkdir -p \"/Users/omarmoussa/Desktop/Claude/Website My Portfolio /Portfolio Website/media/showreel-stills\")"
     ]
   }
 }
